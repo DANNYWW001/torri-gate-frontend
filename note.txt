@@ -1,0 +1,25 @@
+torri- gate-frontend
+
+
+tenant owners dashboard
+
+MERN STACK - mongodb express react node js
+
+frontend
+react
+tailwind daisy ui
+axios
+react-iconns
+context api
+
+
+backend
+mongodb/mongoose
+express/ node js
+
+CORE FEATURES
+1. user Authentication (Login, Register, forgot password reset password)
+2. Role Based access Control (RBAC)
+3. file uploads 
+4. email sending
+5. crud operations
