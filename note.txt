@@ -23,3 +23,11 @@ CORE FEATURES
 3. file uploads 
 4. email sending
 5. crud operations
+
+
+Registration on the frontend
+1. input validation(making sure that the user fits the logic)
+2. get the input and send to the api as a post request (axios)
+3. response - success or error
+a. when in success redirect to verify page
+b. if error (display error message)
