@@ -31,3 +31,5 @@ Registration on the frontend
 3. response - success or error
 a. when in success redirect to verify page
 b. if error (display error message)
+
+

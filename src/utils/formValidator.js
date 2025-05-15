@@ -33,3 +33,10 @@ export const propertySchema = Yup.object().shape({
   price: Yup.string().required("Price is required"),
   paymentPeriod: Yup.string().required("Payment period is required"),
 });
+
+export const forgotPasswordSchema = Yup.object().shape({
+  email: Yup.string()
+    .matches(/^[^\s@]+@[^\s@]+\.[^\s@]+$/, "Email is not valid")
+    .email("Invalid email address")
+    .required("Email is required"),
+});
