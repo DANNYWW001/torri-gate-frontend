@@ -18,7 +18,8 @@ const HomeLoggedIn = lazy(() => import("./pages/HomeLoggedIn"));
 const PropertyDetail = lazy(() => import("./pages/PropertyDetail"));
 const Error404 = lazy(() => import("./pages/Error404"));
 const Verification = lazy(() => import("./pages/Verification"));
-const ForgotPassword = lazy(() => import("./pages/ForgotPassword"))
+const ForgotPassword = lazy(() => import("./pages/ForgotPassword"));
+const CheckYourEmail = lazy(() => import("./pages/CheckYourEmail"));
 import VerifyEmail from "./pages/VerifyEmail";
 
 function App() {
@@ -34,6 +35,7 @@ function App() {
           <Route path="/verification" element={<Verification />} />
           <Route path="/verify-email/:token" element={<VerifyEmail />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/check-your-email" element={<CheckYourEmail />} />
           <Route path="/dashboard" element={<DashboardLayout />}>
             <Route index element={<Dashboard />} />
             <Route path="property" element={<AdminProperty />} />
