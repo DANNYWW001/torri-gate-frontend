@@ -131,7 +131,7 @@ const Profile = () => {
             <p className="text-red-500">{errors.tel1 && errors.tel1.message}</p>
           </div>
           {isEditable && (
-            <div className="flex-gap-2 items-center">
+            <div className="flex gap-2">
               <button
                 type="submit"
                 className="mt-4 bg-black text-white py-2 px-4 rounded"
