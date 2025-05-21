@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { FiEye, FiEyeOff } from "react-icons/fi";
 import { PiWarningCircle } from "react-icons/pi";
-import { resetPasswordSchema } from "../utils/formValidator";
+import { resetPasswordSchema} from '../utils/formValidator'
 import { useParams, useNavigate } from "react-router-dom";
 
 const ResetPassword = () => {
