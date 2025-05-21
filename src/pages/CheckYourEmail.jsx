@@ -1,31 +1,39 @@
 import React from "react";
 import AuthWrapper from "../components/layout/AuthWrapper";
 import { Link } from "react-router-dom";
-import { FaArrowLeft } from "react-icons/fa6";
+import { FaArrowLeft } from "react-icons/fa";
+import { useState } from "react";
 
 const CheckYourEmail = () => {
-  const email = localStorage.getItem("email");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const handlePasswordReset = () => {
+    setIsSubmitting(true);
+    try {
+      console.log("Email Verification");
+    } catch (error) {
+      console.log(error);
+    }
+    // setIsSubmitting(false);
+  };
   return (
     <AuthWrapper>
-      <div className="bg-white py-[29px] px-[26px] rounded-lg shadow-lg lg:w-[453px] w-full ">
+      <div className="bg-white py-[29px] px-[26px] rounded-lg shadow-lg w-full lg:w-[453px]">
         <Link to="/forgot-password">
           <button className="flex items-center gap-1.5">
             <FaArrowLeft /> Back
           </button>
         </Link>
-        <div className="w-[355px] mt-4">
-          <h1 className="text-2xl lg:text-[30px] font-semibold mb-3">
+        <div className="max-w-[332px] mt-4">
+          <h1 className="text-2xl lg:text-[30px] font-[600] text-[#000]">
             Check Your Email
           </h1>
-          <p className="text-[#666] text-[16px] font-normal ">
-            Check the email address <br />
-        <span className="font-semibold ml-1">{email}</span> for instructions
-            to <br />reset your password.
+          <p className="text-[16px] font-[400] text-[#666] ">
+            Check the email address{" "}
+            <span className="font-[700]">olafarid12@gmail.com</span> for
+            instructions to reset your password.
           </p>
         </div>
-        <button className="btn w-full mt-5 font-semibold bg-white py-6">
-          Resend Mail
-        </button>
+        <Link to="/forgot-password">Didn't get a link, resend mail</Link>
       </div>
     </AuthWrapper>
   );
