@@ -68,7 +68,6 @@ const Profile = () => {
               className="h-[140px] w-[142px] rounded-full object-cover"
             />
             <div className="flex flex-col justify-between  ">
-              <h1></h1>
               {!isEditable && (
                 <button
                   type="button"
@@ -131,31 +130,25 @@ const Profile = () => {
             />
             <p className="text-red-500">{errors.tel1 && errors.tel1.message}</p>
           </div>
-
-          {/* <div className="my-[20px] mx-3"> */}
-            <label htmlFor="phone2" className="block text-black text-[14px]">
-              Phone Number2
-            </label>
-            <input
-              type="tel"
-              placeholder="--------"
-              className={`bg-[#fbfbfb] w-full h-[45px]  text-black px-2 outline-0 ${
-                errors.tel2 ? "border border-red-500" : ""
-              }`}
-              {...register("tel2")}
-              readOnly={!isEditable}
-            />
-            {errors.tel2 && (
-              <p className="text-red-500">{errors.tel2.message}</p>
-            )}
-          </div>
           {isEditable && (
-            <button
-              type="submit"
-              className="mt-4 bg-black text-white py-2 px-4 rounded"
-            >
-              Save Changes
-            </button>
+            <div className="flex-gap-2 items-center">
+              <button
+                type="submit"
+                className="mt-4 bg-black text-white py-2 px-4 rounded"
+              >
+                Save Changes
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  setIsEditable(false);
+                  reset();
+                }}
+                className="mt-4 bg-black text-white py-2 px-4 rounded"
+              >
+                Cancel
+              </button>
+            </div>
           )}
         </form>
       </div>
