@@ -15,7 +15,7 @@ const Verification = () => {
   };
   return (
     <AuthWrapper>
-      <div className="bg-white py-[29px] px-[26px] rounded-lg shadow-lg lg:w-[453px] w-full">
+      <div className="bg-white py-[29px] px-[26 px] rounded-lg shadow-lg lg:w-[453px] w-full">
         <Link to="/register">
           <button className="flex items-center gap-1.5">
             {" "}

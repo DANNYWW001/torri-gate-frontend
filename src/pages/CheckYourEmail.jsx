@@ -2,18 +2,16 @@ import React from "react";
 import AuthWrapper from "../components/layout/AuthWrapper";
 import { Link } from "react-router-dom";
 import { FaArrowLeft } from "react-icons/fa";
-import { useState } from "react";
+
 
 const CheckYourEmail = () => {
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const handlePasswordReset = () => {
-    setIsSubmitting(true);
-    try {
-      console.log("Email Verification");
-    } catch (error) {
-      console.log(error);
+  const email = localStorage.getItem("email");
+  const maskEmail = (email) => {
+    const [start, domain] = email.split("@");
+    if (start.length <= 2) {
+      return `${start[0]}...@${domain}`;
     }
-    // setIsSubmitting(false);
+    return `${start.slice(0, 2)}...@${domain}`;
   };
   return (
     <AuthWrapper>
@@ -28,12 +26,18 @@ const CheckYourEmail = () => {
             Check Your Email
           </h1>
           <p className="text-[16px] font-[400] text-[#666] ">
-            Check the email address{" "}
-            <span className="font-[700]">olafarid12@gmail.com</span> for
+            Check the email address
+            <span className="font-[700]"> {maskEmail(email)} </span> for
             instructions to reset your password.
           </p>
+
+          <Link
+            to="/forgot-password"
+            className="font-semibold w-full mt-2.5 btn btn-active text-black"
+          >
+            didn't get a link, resend mail
+          </Link>
         </div>
-        <Link to="/forgot-password">Didn't get a link, resend mail</Link>
       </div>
     </AuthWrapper>
   );
