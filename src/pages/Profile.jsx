@@ -4,6 +4,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { useAppContext } from "../hooks/useAppContext";
 import { axiosInstance } from "../utils/axiosInstance";
+import { toast } from "react-toastify";
 
 const phone_regex = /^\+?[1-9][0-9]{7,14}$/;
 
@@ -50,14 +51,13 @@ const Profile = () => {
       const response = await axiosInstance.patch(
         "/auth/user",
         { ...data },
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
+        { headers: { Authorization: `Bearer ${token}` } }
       );
+
       if (response.status === 200) {
         updateUser(response?.data?.user);
         setIsEditable(false);
-        toast.success("Profile Upadted Successfully");
+        toast.success("Profile Updated Successfully");
       }
     } catch (error) {
       console.log(error);
@@ -176,6 +176,7 @@ const Profile = () => {
           <div className="flex gap-4 mt-6">
             <button
               type="submit"
+              disabled={isSubmitting}
               className="bg-black text-white py-2 px-4 rounded cursor-pointer"
             >
               {isSubmitting ? (
