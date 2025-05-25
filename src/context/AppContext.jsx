@@ -30,9 +30,15 @@ const AppProvider = ({ children }) => {
     localStorage.removeItem("accessToken");
     localStorage.removeItem("user");
   };
+  const updateUser = (updateUser) => {
+    setUser(updateUser);
+    localStorage.setItem("user", JSON.stringify(updateUser));
+  };
 
   return (
-    <appContext.Provider value={{ login, logout, user, token, loading }}>
+    <appContext.Provider
+      value={{ login, logout, user, token, loading, updateUser }}
+    >
       {children}
     </appContext.Provider>
   );
