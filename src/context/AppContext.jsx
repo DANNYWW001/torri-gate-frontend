@@ -10,6 +10,7 @@ const AppProvider = ({ children }) => {
   useEffect(() => {
     const storedToken = localStorage.getItem("accessToken");
     const storedUser = localStorage.getItem("user");
+
     if (storedToken && storedUser) {
       setToken(storedToken);
       setUser(JSON.parse(storedUser));
@@ -30,9 +31,9 @@ const AppProvider = ({ children }) => {
     localStorage.removeItem("accessToken");
     localStorage.removeItem("user");
   };
-  const updateUser = (updateUser) => {
-    setUser(updateUser);
-    localStorage.setItem("user", JSON.stringify(updateUser));
+  const updateUser = (updatedUser) => {
+    setUser(updatedUser);
+    localStorage.setItem("user", JSON.stringify(updatedUser));
   };
 
   return (
