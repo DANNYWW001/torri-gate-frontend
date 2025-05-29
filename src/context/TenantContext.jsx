@@ -1,9 +1,9 @@
-import { Children, createContext } from "react";
+import {  createContext } from "react";
 
 export const TenantContext = createContext();
 
-const Tenantprovider = ({ Children }) => {
-  return <TenantContext.Provider value={{}}>{Children}</TenantContext.Provider>;
+const Tenantprovider = ({ children }) => {
+  return <TenantContext.Provider value={{}}>{children}</TenantContext.Provider>;
 };
 
 export default Tenantprovider;
