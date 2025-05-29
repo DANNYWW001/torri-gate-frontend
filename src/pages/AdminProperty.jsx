@@ -1,57 +1,59 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
+import { properties } from "../data";
 import { IoTrendingUp } from "react-icons/io5";
 import AdminPropertyCard from "../components/AdminPropertyCard";
+import { properties } from "../data";
+import { IoTrendingUp } from "react-icons/io5";
 import { Link } from "react-router-dom";
 import { MdOutlineAddHome } from "react-icons/md";
 import AdminPagination from "../components/AdminPagination";
-import { axiosInstance } from "../utils/axiosInstance";
-import { useAppContext } from "../hooks/useAppContext";
 import SuspenseLoader from "../components/SuspenseLoader";
-import Empty from "../components/Empty";
+import { axiosInstance } from "../utils/axiosInstance";
+import { useState, useEffect } from "react";
+import { useAppContext } from "../hooks/useAppContext";
 
 const AdminProperty = () => {
+  const { token } = useAppContext();
   const [isLoading, setIsLoading] = useState(true);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
   const [properties, setProperties] = useState([]);
   const [total, setTotal] = useState(0);
-  const { token } = useAppContext();
-  const [available, setIsAvailable] = useState(0);
-  const [rented, setIsRented] = useState(0);
+  const [availability, setAvailability] = useState({
+    availableCount: 0,
+    rentedCount: 0,
+  });
 
   const fetchProperties = async () => {
     try {
-      const { data } = await axiosInstance.get(
-        `/property/landlord?page=${page}`,
+      const { data } = await axiosInstance.get(`
+        /property/landlord?page=${page}`,
         {
-          headers: { Authorization: `Bearer ${token}` },
+          headers: { Authorization: `Bearer ${token} ` },
         }
       );
-      setProperties(data.properties);
-      setTotal(data.total);
-      setPage(data.currentPage);
-      setTotalPages(data.totalPages);
-      setIsAvailable(data.availableProperties); // assumes API returns available
-      setIsRented(data.rentedProperties); // assumes API returns rented
-      console.log(data);
+      setProperties(data.properties),
+        setPage(data.currentPage),
+        setTotalPages(data.totalPages),
+        setTotal(data.total);
+      setAvailability({
+        available: data.availableProperties || data.available || 0,
+        rented: data.rentedProperties || data.rented || 0,
+      });
 
-      setIsLoading(false);
+      setIsLoading(false); // fetch properties
     } catch (error) {
-      console.error("Error fetching properties:", error);
-      setIsLoading(false);
+      console.log(error);
     }
   };
-
   useEffect(() => {
     fetchProperties();
   }, [page]);
-
   if (isLoading) {
     return <SuspenseLoader />;
   }
-
   if (!isLoading && total === 0) {
-    return <Empty />;
+    return <div>No Properties Found</div>;
   }
 
   return (
@@ -79,11 +81,10 @@ const AdminProperty = () => {
           </Link>
         </div>
       </div>
-
       <div className="flex flex-col gap-3.5 lg:flex-row items-center mt-6 mb-10">
         <div className="w-full lg:w-[274.25px] ">
           <h2 className="pl-3.5 mb-3 font-medium text-[16px] text-[#666]">
-            Total Properties
+            Total Property
           </h2>
           <div className="w-full bg-white rounded-lg flex items-center h-[80px] pl-3.5">
             <h1 className="font-semibold text-2xl">{total}</h1>
@@ -91,18 +92,18 @@ const AdminProperty = () => {
         </div>
         <div className="w-full lg:w-[274.25px] ">
           <h2 className="pl-3.5 mb-3 font-medium text-[16px] text-[#666]">
-            Available Properties
+            Available Property
           </h2>
           <div className="w-full bg-white rounded-lg flex items-center h-[80px] pl-3.5">
-            <h1 className="font-semibold text-2xl">{available}</h1>
+            <h1 className="font-semibold text-2xl">{availability.available}</h1>
           </div>
         </div>
         <div className="w-full lg:w-[274.25px] ">
           <h2 className="pl-3.5 mb-3 font-medium text-[16px] text-[#666]">
-            Rented Properties
+            Rented Property
           </h2>
           <div className="w-full bg-white rounded-lg flex items-center h-[80px] pl-3.5">
-            <h1 className="font-semibold text-2xl">{rented}</h1>
+            <h1 className="font-semibold text-2xl">{availability.rented}</h1>
           </div>
         </div>
         <div className="w-full lg:w-[274.25px]">
@@ -121,21 +122,13 @@ const AdminProperty = () => {
           </div>
         </div>
       </div>
-
       <div className="flex flex-col gap-4">
-        {properties.map((property) => {
+        {properties.slice(0, 5).map((property) => {
           return <AdminPropertyCard key={property._id} {...property} />;
         })}
       </div>
-
       <div>
-        {totalPages > 1 && (
-          <AdminPagination
-            page={page}
-            totalPages={totalPages}
-            setPage={setPage}
-          />
-        )}
+        <AdminPagination />
       </div>
     </div>
   );
