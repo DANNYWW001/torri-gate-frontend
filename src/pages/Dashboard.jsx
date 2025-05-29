@@ -8,6 +8,7 @@ import { useState, useEffect } from "react";
 import { axiosInstance } from "../utils/axiosInstance";
 import { useAppContext } from "../hooks/useAppContext";
 import { useSubmit } from "react-router-dom";
+import EmptyLandlord from "../components/EmptyLandlord";
 
 const Dashboard = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -43,9 +44,7 @@ const Dashboard = () => {
   }
   if (!isLoading && total === 0) {
     return (
-      <div>
-        <h1>No Properties found</h1>
-      </div>
+        <EmptyLandlord />
     );
   }
 
