@@ -9,6 +9,7 @@ const Tenantprovider = ({ children }) => {
   const [properties, setProperties] = useState([]);
   const [page, setPage] = useState(1);
   const [totalPage, setTotalPage] = useState(1);
+  const [total, setTotal] = useState(1)
   const { token } = useAppContext();
 
   // api call
@@ -21,6 +22,7 @@ const Tenantprovider = ({ children }) => {
         setProperties(data.properties);
         setPage(data.currentPage);
         setTotalPage(data.totalPage);
+        setTotal(data.totalProperties)
         setIsLoading(false);
       } catch (error) {
         console.log(error);
@@ -39,6 +41,7 @@ const Tenantprovider = ({ children }) => {
         page,
         setPage,
         totalPage,
+        total,
       }}
     >
       {children}

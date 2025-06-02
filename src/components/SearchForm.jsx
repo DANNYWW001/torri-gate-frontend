@@ -1,10 +1,20 @@
 import React from "react";
 import { RiResetLeftFill } from "react-icons/ri";
+import { useState } from "react";
 
 const SearchForm = () => {
+  const [location, setLocation] = useState("");
+  const handleSearch = (e) => {
+    e.preventDefault();
+    console.log(location);
+    
+  };
   return (
     <div className=" max-w-[500px]  lg:max-w-[1030px] mx-auto w-full bg-[#fdfdfd] rounded-2xl p-3 lg:px-[14px] lg:py-[14px] mt-10">
-      <form className="flex flex-col lg:flex-row items-end gap-4">
+      <form
+        onSubmit={handleSearch}
+        className="flex flex-col lg:flex-row items-end gap-4"
+      >
         <div className="w-full lg:[w-221px]">
           <label htmlFor="type" className="labelhero">
             Type
@@ -35,6 +45,8 @@ const SearchForm = () => {
             id="budget"
             placeholder="Location"
             className="input w-full bg-[#f6f6f6]"
+            value={location}
+            onChange={(e) => setLocation(e.target.value)}
           />
         </div>
         <button
