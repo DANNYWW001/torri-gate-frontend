@@ -1,7 +1,7 @@
 import { MdArrowLeft, MdArrowRight } from "react-icons/md";
 import { useTenantContext } from "../hooks/useTenantContext";
 
-const Pagination = ({ totalItems = 20 }) => {
+const Pagination = () => {
   const { page, setPage, totalPage, properties, total } = useTenantContext();
 
   return (
@@ -17,7 +17,7 @@ const Pagination = ({ totalItems = 20 }) => {
         <button
           className="px-2 py-1 border rounded disabled:opacity-30"
           onClick={() => setPage(page - 1)}
-          disabled={currentPage === 1}
+          disabled={page === 1}
         >
           <MdArrowLeft size={22} />
         </button>

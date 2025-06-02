@@ -12,6 +12,8 @@ const Tenantprovider = ({ children }) => {
   const [total, setTotal] = useState(1);
   const { token } = useAppContext();
   const [locValue, setLocValue] = useState("");
+  const [budget, setBudget] = useState("");
+  const [type, setType] = useState("")
 
   // api call
   const fetchProperties = async () => {
@@ -19,7 +21,7 @@ const Tenantprovider = ({ children }) => {
       try {
         setIsLoading(true);
         const { data } = await axiosInstance.get(
-          `/property?page=${page}&location=${locValue}`,
+          `/property?page=${page}&location=${locValue}&budget=${budget}&type=${type}`,
           {
             headers: { Authorization: `Bearer ${token}` },
           }
@@ -37,7 +39,14 @@ const Tenantprovider = ({ children }) => {
 
   useEffect(() => {
     fetchProperties();
-  }, [token, page, locValue]);
+  }, [token, page, locValue, budget, type]);
+
+  const resetFilters = () => {
+    setPage(1);
+    setLocValue("");
+    setBudget("");
+    setType("")
+  };
   return (
     <TenantContext.Provider
       value={{
@@ -48,6 +57,9 @@ const Tenantprovider = ({ children }) => {
         totalPage,
         total,
         setLocValue,
+        resetFilters,
+        setBudget,
+        setType
       }}
     >
       {children}

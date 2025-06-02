@@ -4,11 +4,22 @@ import { useState } from "react";
 import { useTenantContext } from "../hooks/useTenantContext";
 
 const SearchForm = () => {
-  const { setLocValue } = useTenantContext();
+  const { setLocValue, resetFilters, setBudget, setType } = useTenantContext();
   const [location, setLocation] = useState("");
+  const [price, setPrice] = useState("");
+  const [option, setOption] = useState("");
   const handleSearch = (e) => {
     e.preventDefault();
     setLocValue(location.trim());
+    setBudget(price);
+    setType(option);
+  };
+
+  const handleReset = () => {
+    resetFilters();
+    setLocation("");
+    setPrice("");
+    setOption("");
   };
 
   return (
@@ -21,7 +32,13 @@ const SearchForm = () => {
           <label htmlFor="type" className="labelhero">
             Type
           </label>
-          <select id="type" className="select w-full bg-[#f6f6f6]">
+          <select
+            id="type"
+            className="select w-full bg-[#f6f6f6]"
+            value={option}
+            onChange={(e) => setOption(e.target.value)}
+          >
+            <option value="">Type</option>
             <option value="flat">Flat</option>
             <option value="duplex">Duplex</option>
             <option value="apartment">Apartment</option>
@@ -32,10 +49,12 @@ const SearchForm = () => {
             Budget
           </label>
           <input
-            type="text"
+            type="number"
             id="budget"
             placeholder="Budget"
             className="input w-full bg-[#f6f6f6]"
+            value={price}
+            onChange={(e) => setPrice(e.target.value)}
           />
         </div>
         <div className="w-full lg:[w-221px]">
@@ -58,7 +77,10 @@ const SearchForm = () => {
           Search For Property
         </button>
       </form>
-      <button className="flex items-center gap-2 mt-2.5 cursor-pointer">
+      <button
+        onClick={handleReset}
+        className="flex items-center gap-2 mt-2.5 cursor-pointer"
+      >
         <RiResetLeftFill /> Reset Filters
       </button>
     </div>
