@@ -1,4 +1,4 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, use, useEffect, useState } from "react";
 import { axiosInstance } from "../utils/axiosInstance";
 import { useAppContext } from "../hooks/useAppContext";
 
@@ -9,20 +9,25 @@ const Tenantprovider = ({ children }) => {
   const [properties, setProperties] = useState([]);
   const [page, setPage] = useState(1);
   const [totalPage, setTotalPage] = useState(1);
-  const [total, setTotal] = useState(1)
+  const [total, setTotal] = useState(1);
   const { token } = useAppContext();
+  const [locValue, setLocValue] = useState("");
 
   // api call
   const fetchProperties = async () => {
     if (token) {
       try {
-        const { data } = await axiosInstance.get(`/property?page=${page}`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+        setIsLoading(true);
+        const { data } = await axiosInstance.get(
+          `/property?page=${page}&location=${locValue}`,
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
         setProperties(data.properties);
         setPage(data.currentPage);
         setTotalPage(data.totalPage);
-        setTotal(data.totalProperties)
+        setTotal(data.totalProperties);
         setIsLoading(false);
       } catch (error) {
         console.log(error);
@@ -32,7 +37,7 @@ const Tenantprovider = ({ children }) => {
 
   useEffect(() => {
     fetchProperties();
-  }, [token, page]);
+  }, [token, page, locValue]);
   return (
     <TenantContext.Provider
       value={{
@@ -42,6 +47,7 @@ const Tenantprovider = ({ children }) => {
         setPage,
         totalPage,
         total,
+        setLocValue,
       }}
     >
       {children}
