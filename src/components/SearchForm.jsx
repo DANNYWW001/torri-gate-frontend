@@ -1,14 +1,16 @@
 import React from "react";
 import { RiResetLeftFill } from "react-icons/ri";
 import { useState } from "react";
+import { useTenantContext } from "../hooks/useTenantContext";
 
 const SearchForm = () => {
+  const { setLocValue } = useTenantContext();
   const [location, setLocation] = useState("");
   const handleSearch = (e) => {
     e.preventDefault();
-    console.log(location);
-    
+    setLocValue(location.trim());
   };
+
   return (
     <div className=" max-w-[500px]  lg:max-w-[1030px] mx-auto w-full bg-[#fdfdfd] rounded-2xl p-3 lg:px-[14px] lg:py-[14px] mt-10">
       <form
