@@ -24,7 +24,7 @@ const PropertyDetail = () => {
       const { data } = await axiosInstance.get(`/property/${propertyId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      console.log(data);``
+      console.log(data);
       setProperty(data.property);
       setMore(data.moreFromLandlord);
       setSimilar(data.similarProperties);
@@ -49,8 +49,7 @@ const PropertyDetail = () => {
           <DetailOfProperty property={property} />
           {more.length > 0 && (
             <OtherPropertyFromOwner more={more} landlord={landlord} />
-          )}
-          {similar.length > 0 && <SimilarProperty similar={similar} />}
+          )}{similar.length > 0 && <SimilarProperty similar={similar} />}
         </>
       )}
       <Footer />
