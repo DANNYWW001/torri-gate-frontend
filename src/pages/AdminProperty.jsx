@@ -1,7 +1,7 @@
 import { properties } from "../data";
 import { IoTrendingUp } from "react-icons/io5";
 import AdminPropertyCard from "../components/AdminPropertyCard";
-import { Link } from "react-router-dom";
+import { Link, redirect } from "react-router-dom";
 import { MdOutlineAddHome } from "react-icons/md";
 import AdminPagination from "../components/AdminPagination";
 import { axiosInstance } from "../utils/axiosInstance";
@@ -9,8 +9,11 @@ import SuspenseLoader from "../components/SuspenseLoader";
 import { useState, useEffect } from "react";
 import { useAppContext } from "../hooks/useAppContext";
 import EmptyLandlord from "../components/EmptyLandlord";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const AdminProperty = () => {
+  const redirect = useNavigate();
   const [isLoading, SetisLoading] = useState(true);
   const [page, setPage] = useState(1);
   const [properties, setProperties] = useState([]);
@@ -24,7 +27,7 @@ const AdminProperty = () => {
   const { token } = useAppContext();
   const fetchProperties = async () => {
     try {
-      const { data } = await axiosInstance.get(
+      const response = await axiosInstance.get(
         `/property/landlord?page=${page}`,
         {
           headers: { Authorization: `Bearer ${token}` },
@@ -32,6 +35,7 @@ const AdminProperty = () => {
       );
       console.log(data);
 
+      const { data } = response;
       setProperties(data.properties);
       setPage(data.currentPage);
       setTotalPages(data.totalPages);
@@ -41,6 +45,10 @@ const AdminProperty = () => {
         rented: data.rentedProperties || data.rented || 0,
       });
       SetisLoading(false);
+      if (response.status === 401) {
+        toast.warning("session expired");
+        redirect("/login");
+      }
     } catch (error) {
       console.log(error);
     }
