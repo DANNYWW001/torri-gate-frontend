@@ -1,30 +1,32 @@
+import React from "react";
 import { properties } from "../data";
 import { IoTrendingUp } from "react-icons/io5";
 import AdminPropertyCard from "../components/AdminPropertyCard";
-import { Link, redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { MdOutlineAddHome } from "react-icons/md";
 import AdminPagination from "../components/AdminPagination";
+import { useAppContext } from "../hooks/useAppContext";
+import { useState, useEffect } from "react";
 import { axiosInstance } from "../utils/axiosInstance";
 import SuspenseLoader from "../components/SuspenseLoader";
-import { useState, useEffect } from "react";
-import { useAppContext } from "../hooks/useAppContext";
 import EmptyLandlord from "../components/EmptyLandlord";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
 const AdminProperty = () => {
   const redirect = useNavigate();
-  const [isLoading, SetisLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
   const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(0);
   const [properties, setProperties] = useState([]);
   const [total, setTotal] = useState(0);
-  const [totalpages, setTotalPages] = useState(0);
   const [availability, setAvailability] = useState({
     available: 0,
     rented: 0,
   });
 
   const { token } = useAppContext();
+
   const fetchProperties = async () => {
     try {
       const response = await axiosInstance.get(
@@ -33,8 +35,6 @@ const AdminProperty = () => {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
-      console.log(data);
-
       const { data } = response;
       setProperties(data.properties);
       setPage(data.currentPage);
@@ -44,7 +44,8 @@ const AdminProperty = () => {
         available: data.availableProperties || data.available || 0,
         rented: data.rentedProperties || data.rented || 0,
       });
-      SetisLoading(false);
+
+      setIsLoading(false);
       if (response.status === 401) {
         toast.warning("session expired");
         redirect("/login");
@@ -53,6 +54,7 @@ const AdminProperty = () => {
       console.log(error);
     }
   };
+
   useEffect(() => {
     fetchProperties();
   }, [page]);
@@ -63,6 +65,7 @@ const AdminProperty = () => {
   if (!isLoading && total === 0) {
     return <EmptyLandlord />;
   }
+
   return (
     <div>
       <div className="flex items-center justify-between my-5">
@@ -91,7 +94,7 @@ const AdminProperty = () => {
       <div className="flex flex-col gap-3.5 lg:flex-row items-center mt-6 mb-10">
         <div className="w-full lg:w-[274.25px] ">
           <h2 className="pl-3.5 mb-3 font-medium text-[16px] text-[#666]">
-            Total Properties
+            Total Property
           </h2>
           <div className="w-full bg-white rounded-lg flex items-center h-[80px] pl-3.5">
             <h1 className="font-semibold text-2xl">{total}</h1>
@@ -135,10 +138,10 @@ const AdminProperty = () => {
         })}
       </div>
       <div>
-        {totalpages > 1 && (
+        {totalPages > 1 && (
           <AdminPagination
             page={page}
-            totalPages={totalpages}
+            totalPages={totalPages}
             setPage={setPage}
           />
         )}
